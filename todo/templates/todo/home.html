@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مدیریت تسک‌ها</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #140b2e;
+    --bg-mid: #2a1454;
+    --pink: #ff3d9a;
+    --orange: #ff8a3d;
+    --yellow: #ffd23f;
+    --cyan: #3de3ff;
+    --purple: #9b5cff;
+    --ink: #fdfaff;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+  }
+
+  body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,61,154,0.35), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(61,227,255,0.30), transparent 45%),
+      radial-gradient(circle at 75% 85%, rgba(255,138,61,0.30), transparent 45%),
+      radial-gradient(circle at 20% 80%, rgba(155,92,255,0.35), transparent 45%),
+      linear-gradient(135deg, var(--bg-deep), var(--bg-mid));
+    background-size: 200% 200%;
+    animation: drift 18s ease-in-out infinite;
+  }
+
+  @keyframes drift {
+    0%   { background-position: 0% 0%; }
+    50%  { background-position: 100% 60%; }
+    100% { background-position: 0% 0%; }
+  }
+
+  /* busy floating shapes */
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.65;
+    animation: float 12s ease-in-out infinite;
+  }
+  .shape.blur { filter: blur(30px); opacity: 0.5; }
+
+  .s1 { width: 90px; height: 90px; background: var(--pink); top: 8%; left: 10%; animation-duration: 14s; }
+  .s2 { width: 140px; height: 140px; background: var(--cyan); top: 65%; left: 6%; animation-duration: 16s; animation-delay: -3s; }
+  .s3 { width: 60px; height: 60px; background: var(--yellow); top: 20%; left: 80%; animation-duration: 10s; animation-delay: -1s; }
+  .s4 { width: 200px; height: 200px; background: var(--purple); top: 70%; left: 78%; animation-duration: 20s; animation-delay: -6s; }
+  .s5 { width: 45px; height: 45px; background: var(--orange); top: 45%; left: 90%; animation-duration: 9s; animation-delay: -2s; }
+  .s6 { width: 70px; height: 70px; background: var(--pink); top: 85%; left: 40%; animation-duration: 13s; animation-delay: -4s; }
+  .s7 { width: 30px; height: 30px; background: var(--cyan); top: 12%; left: 45%; animation-duration: 8s; animation-delay: -1.5s; }
+  .s8 { width: 25px; height: 25px; background: var(--yellow); top: 55%; left: 25%; animation-duration: 11s; animation-delay: -5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(20px,-30px) scale(1.1); }
+  }
+
+  /* subtle grid texture for "shulugh" busy feel */
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    width: min(90vw, 380px);
+    padding: 46px 36px 40px;
+    border-radius: 28px;
+    background: rgba(20, 11, 46, 0.55);
+    border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--pink), var(--purple));
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  h1 {
+    color: var(--ink);
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.5;
+    margin: 0 0 10px;
+  }
+
+  h1 span {
+    background: linear-gradient(90deg, var(--yellow), var(--orange), var(--pink));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  p.tagline {
+    color: rgba(253,250,255,0.72);
+    font-size: 15px;
+    margin: 0 0 32px;
+    line-height: 1.8;
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .btn:active { transform: scale(0.97); }
+
+  .btn-login {
+    background: linear-gradient(90deg, var(--pink), var(--orange));
+    color: #1a0d33;
+    box-shadow: 0 10px 25px rgba(255,61,154,0.35);
+  }
+  .btn-login:hover {
+    box-shadow: 0 14px 32px rgba(255,61,154,0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-signup {
+    background: linear-gradient(90deg, var(--cyan), var(--purple));
+    color: #10082b;
+    box-shadow: 0 10px 25px rgba(61,227,255,0.3);
+  }
+  .btn-signup:hover {
+    box-shadow: 0 14px 32px rgba(61,227,255,0.45);
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body>
+
+  <div class="grid-overlay"></div>
+  <div class="shape s1"></div>
+  <div class="shape s2 blur"></div>
+  <div class="shape s3"></div>
+  <div class="shape s4 blur"></div>
+  <div class="shape s5"></div>
+  <div class="shape s6 blur"></div>
+  <div class="shape s7"></div>
+  <div class="shape s8"></div>
+
+  <div class="card">
+    
+    <h1>کارات رو <span>خفن</span> مدیریت کن</h1>
+    <p class="tagline">لیست تسک‌هات، همه‌جا در دسترس. ثبت‌نام کن یا وارد شو و شروع کن.</p>
+    <a href="{% url 'login' %}" class="btn btn-login">ورود</a>
+    <a href="{% url 'signup' %}" class="btn btn-signup">ثبت‌نام</a>
+  </div>
+
+</body>
+</html>

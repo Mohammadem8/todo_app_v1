@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست تسک‌ها</title>
+    <style>
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .add-link {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .logout-link {
+            color: #888;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+        }
+
+        .task-name {
+            font-weight: bold;
+            color: #222;
+        }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .done {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .not-done {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .date {
+            font-size: 12px;
+            color: #888;
+            display: block;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>لیست تسک‌های من</h1>
+
+        <div class="nav-links">
+            <a href="{% url 'addtask' %}" class="add-link">+ افزودن تسک جدید</a>
+            &nbsp;|&nbsp;
+            <a href="{% url 'logout' %}" class="logout-link">خروج</a>
+        </div>
+
+        <ul>
+            {% for task in context %}
+                <li>
+                    
+                    <div>
+                        <span class="task-name">{{ task.task }}</span>
+                        <span class="date">{{ task.created_date }}</span>
+                    </div>
+                    {% if task.status %}
+                        <span class="status done">انجام شده</span>
+                    {% else %}
+                        <span class="status not-done">انجام نشده</span>
+                    {% endif %}
+                    <a href="{% url 'edittask' task.id %}">ویرایش</a>
+                </li>
+            {% empty %}
+                <li>هیچ تسکی وجود نداره!</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
